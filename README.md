@@ -34,12 +34,6 @@ const fetchCalendar = require("kalendarz-swiat-nietypowych-parser");
 - Wyeliminować wszystkie "typowe" święta, takie jak "Boże Narodzenie", które nijak jest nietypowe i będzie się
 duplikowało z ew. "wbudowanymi" świętami w określonych kalendarzach
 
-## FAQ
-
-- Po co to, skoro Nonsensopedia udostępnia to samo? https://s.o7o.pl/rKpr6L
-
-To nie jest to samo - zdaje się, że brakuje tam świąt, dodatkowo do wpisów są pododawane jakieś bzdury.
-
 ## Licencja
 
 MIT
