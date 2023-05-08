@@ -3,7 +3,10 @@ const Entities = require('html-entities').AllHtmlEntities;
 
 const entities = new Entities();
 
-const notUnusual = ["Sylwester", "Boże Narodzenie", "Święto Pracy"];
+const notUnusual = [
+    "Sylwester", "Boże Narodzenie", "Święto Pracy", "Święto Konstytucji", "Dzień Dziecka",
+    "Uroczystość Wszystkich Świętych"
+];
 const knownIgnored = ["Spis treści", "Przypisy"];
 const months = [
     "Ruchome",
@@ -65,7 +68,10 @@ const parseMonth = function($, $list, title, YEAR) {
             return;
         }
 
-        const holidays = text.substr(text.indexOf("–") + 1).trim().split(",").map(trim).filter(onlyUnusual);
+        const regex = /,(?!(\s+)?(któr|a ))/i;
+        const holidays = text.substring(text.indexOf("–") + 1).trim().split(regex)
+            .filter(Boolean).map(trim)
+            .filter(Boolean).filter(onlyUnusual);
         return {
             day: monthDay,
             month: monthNumber,
@@ -320,6 +326,10 @@ const parseSection = function($, YEAR) {
     if (title === months[0]) {
         return parseMovable($, $list, title, YEAR);
     }
+    if (!$list.length) {
+        console.info("No list for", title);
+        return;
+    }
     return parseMonth($, $list, title, YEAR);
 };
 
@@ -333,7 +343,7 @@ const parse = (html, YEAR) => {
     console.info("Found", $headers.length, "headers");
 
     $headers.each(function() {
-        console.info("Parsing new header");
+        console.info("Parsing new header", $(this).text().substring(0, 20));
         const parsedItems = parseSection.call(this, $, YEAR);
         console.info("Found", (parsedItems || 0) && parsedItems.length, "lists");
         parsedItems && parsedItems.forEach((item) => {

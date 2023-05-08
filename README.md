@@ -2,14 +2,17 @@
 
 (**English**: Nothing useful here for non-polish speakers.)
 
-Automat do pobierania i parsowania Kalendarza Świąt Nietypowych z Nonsensopedii. Większość dat jest zbierana automatem, parę jest
-parsowanych "z pomocą". Daty "ustalane" są ignorowane.
+Automat do pobierania i parsowania Kalendarza Świąt Nietypowych z Nonsensopedii. Uwzględnia święta ruchome! (z paroma
+wyjątkami).
 
 ## Wymagania
 
 W miarę nowy Node.js
 
 ## Sposób użycia
+
+Jeżeli po prostu chcesz listę do zaimportowania do kalendarza to
+[spójrz na to repo](https://github.com/dzek69/kalendarz-swiat-nietypowych-ics-google-exporter).
 
 ```javascript
 const fetchCalendar = require("kalendarz-swiat-nietypowych-parser");
@@ -21,18 +24,10 @@ const fetchCalendar = require("kalendarz-swiat-nietypowych-parser");
 })();
 ```
 
-## Znane problemy
-
-- Bałagan w kodzie parsującym
-- Parser nie rozróżnia czy przecinek jest formą w zdaniu czy rozdziela święto, np:
-"Dzień Dzieci, Które Zastępują Żołnierzy" jest dzielone na "Dzień Dzieci" i "Które Zastępują Żołnierzy"
-
 ## Do zrobienia
 
-- Naprawić znane problemy
+- Ogarnąć bałagan w kodzie
 - Ogarnąć @todo w kodzie
-- Wyeliminować wszystkie "typowe" święta, takie jak "Boże Narodzenie", które nijak jest nietypowe i będzie się
-duplikowało z ew. "wbudowanymi" świętami w określonych kalendarzach
 
 ## Licencja
 
