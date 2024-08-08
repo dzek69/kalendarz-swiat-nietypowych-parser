@@ -37,7 +37,7 @@ const last = [
 ];
 
 const days = [
-    "", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela",
+    "", "poniedziałek", "wtorek", ["środa", "środę"], "czwartek", "piątek", "sobota", "niedziela",
 ];
 
 const week = "tydzień";
@@ -45,7 +45,8 @@ const weekend = "weekend";
 
 const manualDates = [
     "data ustalana", "marzec lub kwiecień", "równonoc wiosenna", // @todo handle równonoc
-    "tydzień poprzedzający wielki tydzień",
+    "tydzień poprzedzający wielki tydzień", // @todo handle this too
+    "ostatni nów jesieni" // @todo handle?
 ];
 
 const onlyUnusual = (holiday) => {
@@ -178,7 +179,12 @@ const isWeekend = word => {
 };
 
 const findWeekDayNumber = word => {
-    const index = days.indexOf(word.toLowerCase());
+    const index = days.findIndex(day => {
+        if (Array.isArray(day)) {
+            return day.includes(word.toLowerCase());
+        }
+        return day === word.toLowerCase();
+    });
     if (index > 0) {
         return index;
     }
@@ -199,11 +205,22 @@ const findMonthNumber = word => {
     }
 };
 
+const getNthDayOfAYear = (dayNumber, year) => {
+    const date = new Date(year, 0, 1);
+    date.setDate(dayNumber);
+    return date;
+
+}
+
 const findDate = (text, YEAR) => {
     const words = text.split(" ");
     const firstWord = words[0];
     const secondWord = words[1];
     const thirdWord = words[2];
+
+    if (secondWord === "dzień" && thirdWord === "roku") {
+        return getDateResult(getNthDayOfAYear(firstWord, YEAR));
+    }
 
     const order = findDayOrderNumber(firstWord);
     const weekDay = findWeekDayNumber(secondWord);
@@ -231,9 +248,13 @@ const findDate = (text, YEAR) => {
             const holySaturday = findDateBefore(easter, 6);
             return findDateBefore(holySaturday, 6);
         }
+        case "Tydzień, w którym przypada 8 maja":
         case "Tydzień w którym przypada 8 maja": {
             const may8th = getDateResult(new Date(YEAR, 5 - 1, 8));
             return findDateBefore(may8th, -1);
+        }
+        case "Pierwsza środę czerwca": {
+            return findDateByNumbers(YEAR, 6, 1, 3);
         }
     }
 

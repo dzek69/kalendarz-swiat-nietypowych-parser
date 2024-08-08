@@ -29,6 +29,10 @@ const fetchCalendar = require("kalendarz-swiat-nietypowych-parser");
 - Ogarnąć bałagan w kodzie
 - Ogarnąć @todo w kodzie
 
+## Nie działa!
+
+Jak nie działa, to proszę zgłosić, naprawię :)
+
 ## Licencja
 
 MIT
